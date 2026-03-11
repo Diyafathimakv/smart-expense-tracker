@@ -27,7 +27,7 @@ function ExpenseForm({ fetchExpenses, editingExpense, setEditingExpense }) {
     if (editingId) {
 
       // EDIT EXPENSE
-      await fetch(`http://127.0.0.1:5000/expense/${editingId}`, {
+      await fetch(`https://expense-tracker-backend-ll82.onrender.com/expense/${editingId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

@@ -23,7 +23,7 @@ const [isError, setIsError] = useState(false)
   return
 }
 
-  const response = await fetch("http://127.0.0.1:5000/register", {
+  const response = await fetch("https://expense-tracker-backend-ll82.onrender.com/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
