@@ -14,8 +14,7 @@ def create_app():
 
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///expenses.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.config["JWT_SECRET_KEY"] = "super-secret-key"
-
+    app.config["JWT_SECRET_KEY"] = "my-very-long-super-secure-secret-key-123456"
     jwt.init_app(app)
     db.init_app(app)
     bcrypt.init_app(app)
