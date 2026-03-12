@@ -279,6 +279,8 @@ function Dashboard() {
         </div>
 
         {/* BAR CHART */}
+        
+              {expenses.length > 0 && (
 
         <div className="bar-chart-section">
 
@@ -304,10 +306,12 @@ function Dashboard() {
             />
 
           </BarChart>
+          
 
-        </div>
+        </div> )}
 
-      </div>
+      </div> 
+      
 
     </div>
 
