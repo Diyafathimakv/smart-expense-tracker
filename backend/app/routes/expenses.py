@@ -49,13 +49,13 @@ def get_expenses():
     expenses = Expense.query.filter_by(user_id=user_id).all()
     result = []
     for expense in expenses:
-        result.append({
-        "id": expense.id,
-        "amount": expense.amount,
-        "category": expense.category,
-        "description": expense.description,
-        "date": expense.date
-        })
+      result.append({
+    "id": expense.id,
+    "amount": expense.amount,
+    "category": expense.category,
+    "description": expense.description,
+    "date": expense.date.isoformat()
+})
     
     return jsonify(result), 200
 
