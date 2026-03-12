@@ -40,12 +40,12 @@ function ExpenseForm({ fetchExpenses, editingExpense, setEditingExpense }) {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({
-              amount,
-              category,
-              description,
-              date
-            })
+           body: JSON.stringify({
+  amount: Number(amount),
+  category,
+  description,
+  date
+})
           }
         )
 
@@ -60,12 +60,12 @@ function ExpenseForm({ fetchExpenses, editingExpense, setEditingExpense }) {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({
-              amount,
-              category,
-              description,
-              date
-            })
+           body: JSON.stringify({
+  amount: Number(amount),
+  category,
+  description,
+  date
+})
           }
         )
 
