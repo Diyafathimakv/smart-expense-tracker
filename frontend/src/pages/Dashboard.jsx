@@ -78,28 +78,34 @@ function Dashboard() {
     localStorage.removeItem("token")
     navigate("/")
   }
+const fetchExpenses = async () => {
 
- const fetchExpenses = async () => {
+  try {
 
-  const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token")
 
-  const response = await fetch(
-    "https://expense-tracker-backend-ll82.onrender.com/expenses",
-    {
-      headers: {
-        Authorization: `Bearer ${token}`
+    const response = await fetch(
+      "https://expense-tracker-backend-ll82.onrender.com/expenses",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
-    }
-  )
+    )
 
-  const data = await response.json()
+    const data = await response.json()
 
-  console.log("EXPENSE DATA:", data)
+    console.log("EXPENSE DATA:", data)
 
-  setExpenses(data)
+    setExpenses(Array.isArray(data) ? data : [])
+
+  } catch (error) {
+    console.error("Fetch expenses error:", error)
+  }
+
 }
 
- const deleteExpense = async (id) => {
+const deleteExpense = async (id) => {
 
   const token = localStorage.getItem("token")
 
@@ -221,7 +227,7 @@ function Dashboard() {
                 </span>
 
                 <span className="expense-date">
-                  {new Date(expense.date).toLocaleDateString()}
+                 {expense.date ? new Date(expense.date).toLocaleDateString() : ""}
                 </span>
 
                 <button
