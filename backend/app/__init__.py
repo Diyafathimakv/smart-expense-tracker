@@ -20,11 +20,15 @@ def create_app():
     db.init_app(app)
     bcrypt.init_app(app)
     CORS(app, resources={r"/*": {"origins": "*"}})
-    
+
     from .routes.auth import auth
     app.register_blueprint(auth)
 
     from .routes.expenses import expense
     app.register_blueprint(expense)
+
+    # CREATE DATABASE TABLES
+    with app.app_context():
+        db.create_all()
 
     return app
