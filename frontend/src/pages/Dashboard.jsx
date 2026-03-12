@@ -105,6 +105,10 @@ const fetchExpenses = async () => {
 
 }
 
+useEffect(() => {
+  fetchExpenses()
+}, [])
+
 const deleteExpense = async (id) => {
 
   const token = localStorage.getItem("token")
