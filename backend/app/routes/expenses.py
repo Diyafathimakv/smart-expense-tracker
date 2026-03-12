@@ -18,8 +18,8 @@ def add_expense():
     description = data.get("description")
     date_str = data.get("date")   # NEW
 
-    user_id = get_jwt_identity()
-
+    user_id = int(get_jwt_identity())
+    
     if amount is None or category is None:
         return jsonify({"message": "Amount and category are required"}), 400
 

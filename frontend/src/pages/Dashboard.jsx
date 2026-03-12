@@ -79,27 +79,25 @@ function Dashboard() {
     navigate("/")
   }
 
-  const fetchExpenses = async () => {
+ const fetchExpenses = async () => {
 
-    const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token")
 
-    const response = await fetch(
-      "https://expense-tracker-backend-ll82.onrender.com/expenses",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+  const response = await fetch(
+    "https://expense-tracker-backend-ll82.onrender.com/expenses",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
       }
-    )
+    }
+  )
 
-    const data = await response.json()
+  const data = await response.json()
 
-    setExpenses(data)
-  }
+  console.log("EXPENSE DATA:", data)
 
-  useEffect(() => {
-    fetchExpenses()
-  }, [])
+  setExpenses(data)
+}
 
  const deleteExpense = async (id) => {
 
