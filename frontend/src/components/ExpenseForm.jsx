@@ -18,57 +18,54 @@ function ExpenseForm({ fetchExpenses, editingExpense, setEditingExpense }) {
       setEditingId(editingExpense.id)
     }
   }, [editingExpense])
+const handleAddExpense = async (e) => {
+  e.preventDefault()
 
-  const handleAddExpense = async (e) => {
-    e.preventDefault()
+  const token = localStorage.getItem("token")
 
-    const token = localStorage.getItem("token")
+  if (editingId) {
 
-    if (editingId) {
-
-      // EDIT EXPENSE
-      await fetch(`https://expense-tracker-backend-ll82.onrender.com/expense/${editingId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          amount,
-          category,
-          description,
-          date
-        })
+    await fetch(`https://expense-tracker-backend-ll82.onrender.com/expense/${editingId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        amount,
+        category,
+        description,
+        date
       })
+    })
 
-    } else {
+  } else {
 
-      // ADD NEW EXPENSE
-      await fetch("https://expense-tracker-backend-ll82.onrender.com/add-expense", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          amount,
-          category,
-          description,
-          date
-        })
+    await fetch("https://expense-tracker-backend-ll82.onrender.com/add-expense", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        amount,
+        category,
+        description,
+        date
       })
+    })
 
-    }
-
-    setAmount("")
-    setCategory("")
-    setDescription("")
-    setDate("")
-    setEditingId(null)
-    setEditingExpense(null)
-
-    fetchExpenses()
   }
+
+  setAmount("")
+  setCategory("")
+  setDescription("")
+  setDate("")
+  setEditingId(null)
+  setEditingExpense(null)
+
+  fetchExpenses()
+}
 
   return (
     <form className="expense-form" onSubmit={handleAddExpense}>
