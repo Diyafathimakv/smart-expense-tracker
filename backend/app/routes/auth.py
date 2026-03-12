@@ -5,7 +5,6 @@ from flask_jwt_extended import create_access_token
 
 auth = Blueprint("auth", __name__)
 
-
 @auth.route("/register", methods=["POST"])
 def register():
 
@@ -15,12 +14,15 @@ def register():
     email = data.get("email")
     password = data.get("password")
 
-    # Check if user already exists
-    existing_user = User.query.filter_by(email=email).first()
-    if existing_user:
-        return jsonify({"message": "User already exists"}), 400
+    if not username or not email or not password:
+        return jsonify({"message": "All fields are required"}), 400
 
-    # Hash password using bcrypt
+    # CHECK IF USER EXISTS
+    existing_user = User.query.filter_by(email=email).first()
+
+    if existing_user:
+        return jsonify({"message": "Email already registered"}), 400
+
     hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
 
     new_user = User(
