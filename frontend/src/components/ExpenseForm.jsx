@@ -18,56 +18,86 @@ function ExpenseForm({ fetchExpenses, editingExpense, setEditingExpense }) {
       setEditingId(editingExpense.id)
     }
   }, [editingExpense])
-const handleAddExpense = async (e) => {
-  e.preventDefault()
 
-  const token = localStorage.getItem("token")
+  const handleAddExpense = async (e) => {
 
-  if (editingId) {
+    e.preventDefault()
 
-    await fetch(`https://expense-tracker-backend-ll82.onrender.com/expense/${editingId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        amount,
-        category,
-        description,
-        date
-      })
-    })
+    const token = localStorage.getItem("token")
 
-  } else {
+    try {
 
-    await fetch("https://expense-tracker-backend-ll82.onrender.com/add-expense", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        amount,
-        category,
-        description,
-        date
-      })
-    })
+      let response
+
+      if (editingId) {
+
+        // EDIT EXPENSE
+        response = await fetch(
+          `https://expense-tracker-backend-ll82.onrender.com/expense/${editingId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              amount,
+              category,
+              description,
+              date
+            })
+          }
+        )
+
+      } else {
+
+        // ADD NEW EXPENSE
+        response = await fetch(
+          "https://expense-tracker-backend-ll82.onrender.com/add-expense",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              amount,
+              category,
+              description,
+              date
+            })
+          }
+        )
+
+      }
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        console.error(data)
+        alert("Error adding expense")
+        return
+      }
+
+      // RESET FORM
+      setAmount("")
+      setCategory("")
+      setDescription("")
+      setDate("")
+      setEditingId(null)
+      setEditingExpense(null)
+
+      // REFRESH EXPENSE LIST
+      fetchExpenses()
+
+    } catch (error) {
+      console.error("Add expense error:", error)
+    }
 
   }
 
-  setAmount("")
-  setCategory("")
-  setDescription("")
-  setDate("")
-  setEditingId(null)
-  setEditingExpense(null)
-
-  fetchExpenses()
-}
-
   return (
+
     <form className="expense-form" onSubmit={handleAddExpense}>
 
       <input
@@ -83,6 +113,7 @@ const handleAddExpense = async (e) => {
         onChange={(e) => setCategory(e.target.value)}
         required
       >
+
         <option value="">Select Category</option>
         <option value="Food">Food</option>
         <option value="Travel">Travel</option>
@@ -90,6 +121,7 @@ const handleAddExpense = async (e) => {
         <option value="Grocery">Grocery</option>
         <option value="Bills">Bills</option>
         <option value="Others">Others</option>
+
       </select>
 
       <input
@@ -110,7 +142,9 @@ const handleAddExpense = async (e) => {
       </button>
 
     </form>
+
   )
+
 }
 
 export default ExpenseForm

@@ -101,28 +101,29 @@ function Dashboard() {
     fetchExpenses()
   }, [])
 
-  const deleteExpense = async (id) => {
+ const deleteExpense = async (id) => {
 
-    const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token")
 
-    const response = await fetch(
-      `http://127.0.0.1:5000/expense/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+  const response = await fetch(
+    `https://expense-tracker-backend-ll82.onrender.com/expense/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`
       }
-    )
-
-    const data = await response.json()
-
-    if (response.ok) {
-      fetchExpenses()
-    } else {
-      alert(data.message)
     }
+  )
+
+  const data = await response.json()
+
+  if (response.ok) {
+    fetchExpenses()
+  } else {
+    alert(data.message)
   }
+
+}
 
   const COLORS = [
     "#4CAF50",
