@@ -40,7 +40,7 @@ function Navbar() {
 
         {username && (
           <span className="navbar__greeting">
-            👋 {username}
+            Hi, {username}
           </span>
         )}
 
